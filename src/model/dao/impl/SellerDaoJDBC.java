@@ -21,13 +21,11 @@ public class SellerDaoJDBC implements SellerDao {
 	private Connection connect;
 	
 	public SellerDaoJDBC (Connection connect) {
-		
 		this.connect = connect;
 	}
 
 	@Override
 	public void insert(Seller obj) {
-		
 		PreparedStatement st = null;
 		try {
 			st = connect.prepareStatement(
@@ -62,8 +60,7 @@ public class SellerDaoJDBC implements SellerDao {
 		}
 		finally {
 			DB.closeStatement(st);
-		}
-		
+		}	
 	}
 
 	@Override
@@ -90,16 +87,12 @@ public class SellerDaoJDBC implements SellerDao {
 		finally {
 			DB.closeStatement(st);
 		}
-		
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		
 		PreparedStatement st = null;
-		
 		try {
-		
 			st = connect.prepareStatement(
 					"DELETE FROM seller "
 					+ "WHERE Id = ?");
@@ -118,15 +111,12 @@ public class SellerDaoJDBC implements SellerDao {
 		finally {
 			DB.closeStatement(st);
 		}
-		
 	}
 
 	@Override
 	public Seller findById(Integer id) {
-		
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
 		try {
 			st = connect.prepareStatement(
 					"SELECT seller.*, department.Name as DepName "
@@ -150,7 +140,6 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		
 	}
 
 	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
@@ -173,10 +162,8 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findAll() {
-		
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
 		try {
 			st = connect.prepareStatement(
 					"SELECT seller.*,department.Name as DepName "
@@ -190,9 +177,7 @@ public class SellerDaoJDBC implements SellerDao {
 			Map<Integer, Department> map = new HashMap<>();
 			
 			while (rs.next()) {
-				
 				Department dep = map.get(rs.getInt("DepartmentId"));
-				
 				if (dep == null) {
 					dep = instantiateDepartment(rs);
 					map.put(rs.getInt("DepartmentId"), dep);
@@ -214,10 +199,8 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findByDepartment(Department department) {
-		
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
 		try {
 			st = connect.prepareStatement(
 					"SELECT seller.*,department.Name as DepName "
@@ -254,5 +237,4 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeResultSet(rs);
 		}
 	}
-
 }
